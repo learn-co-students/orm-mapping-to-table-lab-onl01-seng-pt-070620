@@ -6,9 +6,10 @@ class Student
   attr_accessor :name, :grade
   attr_reader :id
 
-  def initialize(name, grade)
+  def initialize(name, grade, id=nil)
     @name = name
     @grade = grade
+    @id = id if id != nil
   end 
   
   def self.create_table
@@ -29,8 +30,9 @@ class Student
 
     @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students")[0][0]
 
+    # using only SQL statment but why it does not work?
     # DB[:conn].execute("INSERT INTO students (name, grade) VALUES (?, ?)")
-    # @id = DB[:conn].execute("SELECT * FROM students ORDER BY ID DESC LIMIT 1")
+    # @id = DB[:conn].execute("SELECT * FROM students ORDER BY students.id DESC LIMIT 1")
   end 
 
    

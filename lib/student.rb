@@ -9,11 +9,11 @@ class Student
   def initialize(name, grade, id=nil)
     @name = name
     @grade = grade
-    @id = id if id != nil
+    @id = id #if id != nil
   end 
   
   def self.create_table
-    sql = DB[:conn].execute("CREATE TABLE students (id PRIMARY KEY, name TEXT, grade INTEGER)")
+    sql = DB[:conn].execute("CREATE TABLE students (id INTEGER PRIMARY KEY, name TEXT, grade INTEGER)")
   end 
 
   def self.drop_table
@@ -21,7 +21,7 @@ class Student
   end 
 
   def save 
-    # using SQL query from the lessoon
+    # using SQL query from the lesson
     sql = <<-SQL
     INSERT INTO students (name, grade) 
     VALUES (?, ?)
@@ -35,14 +35,21 @@ class Student
     # @id = DB[:conn].execute("SELECT * FROM students ORDER BY students.id DESC LIMIT 1")
   end 
 
-   
-  def self.create(student)
-      student = Students.new(name, album)
-      student.each {|key, value| send("#{key}=",value)}
-        end 
+  # using proper metaprogramming. play with it more to gain understanding!
+  # def self.create(attributes)
+  #     binding.pry
+  #     #student = Student.new(attributes)
+  #     result = attributes.each {|key, value| self.send(("#{key}="),value)}
+  #     puts "#{result}"
+  #     student.save
+  #     student
+  # end
+
+      
+    def self.create(name:, grade:)
+      student = Student.new(name, grade)
       student.save
       student
-  end
-
+    end
 
 end
